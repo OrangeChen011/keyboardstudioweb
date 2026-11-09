@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f8eaf0"><title>V1.5 · Key Atelier · 键盘工坊</title>
+<style>
+:root{--bg:#f8edf2;--panel:#fffafd;--ink:#573e4b;--muted:#a78d99;--accent:#d77e9d;--accent2:#f0b9ca;--line:#f0dce4;--key:#fff;--keyink:#745866;--shadow:0 8px 24px #9c6d8018;--radius:20px}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,var(--bg),#f7f0f4);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;border:0} .app{max-width:1500px;margin:auto;padding:18px 22px 36px}
+.top{display:flex;align-items:center;gap:16px;justify-content:space-between;margin-bottom:16px}.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#f4bfd0,#d7799d);display:grid;place-items:center;color:white;font-size:22px;box-shadow:0 6px 15px #d7799d55}.brand h1{font-size:18px;margin:0;letter-spacing:.3px}.brand small{display:block;color:var(--muted);font-size:11px}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{padding:10px 14px;border-radius:12px;background:white;color:var(--ink);border:1px solid var(--line);box-shadow:0 2px 7px #9c6d800c}.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}.btn.soft{background:#f9e5ed;color:#a65376;border-color:#f3d1de}.btn:active{transform:scale(.98)}
+.tabs{display:flex;gap:7px;padding:6px;background:#ffffff9c;border:1px solid var(--line);border-radius:15px;width:max-content;max-width:100%;overflow:auto;margin-bottom:16px}.tab{white-space:nowrap;padding:9px 15px;border-radius:10px;background:transparent;color:var(--muted)}.tab.active{background:white;color:var(--accent);box-shadow:0 3px 10px #a66c8018;font-weight:650}
+.workspace{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);gap:16px;align-items:start}.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:16px 18px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}.panel-head h2{font-size:15px;margin:0}.sub{font-size:11px;color:var(--muted)}.preview{padding:18px;background:linear-gradient(135deg,#f9eaf0,#f5e8ee);min-height:450px;display:flex;flex-direction:column;justify-content:center;gap:20px}.phone{width:min(100%,700px);margin:auto;background:var(--kb-bg,#f8e8ef);border:1px solid #ffffffb8;border-radius:22px;padding:16px 13px 13px;box-shadow:0 15px 35px #9a607322;position:relative;overflow:hidden}.phone:before{content:"";position:absolute;inset:0;background-image:var(--kb-image);background-size:cover;background-position:center;opacity:var(--kb-image-opacity,0);pointer-events:none}.suggest{position:relative;display:flex;justify-content:space-around;align-items:center;height:30px;color:var(--keyink);font-size:13px}.keyrows{position:relative;display:flex;flex-direction:column;gap:8px}.keyrow{display:flex;justify-content:center;gap:6px}.key{min-width:0;flex:1;height:47px;border-radius:12px;background:var(--key);color:var(--keyink);box-shadow:0 3px 0 var(--key-shadow,#e5cbd5),0 5px 10px #74465c13;display:flex;align-items:center;justify-content:center;position:relative;font-size:18px;font-weight:550;user-select:none;transition:transform .08s,filter .15s;border:1px solid #ffffff9c;overflow:hidden}.key small{position:absolute;top:3px;right:5px;font-size:8px;opacity:.5}.key:active,.key.selected{transform:translateY(2px);box-shadow:0 1px 0 var(--key-shadow,#e5cbd5);filter:brightness(.97)}.key.special{background:var(--special,#efdae3);font-size:12px}.key.space{flex:4;font-size:12px}.key.enter{flex:1.5;background:var(--accent);color:white}.key img{width:100%;height:100%;object-fit:cover;position:absolute}.key .glyph{position:relative;z-index:1;text-shadow:0 1px 3px #fff8}.preview-note{text-align:center;color:#a98596;font-size:11px}
+.editor{padding:17px;display:flex;flex-direction:column;gap:17px;max-height:760px;overflow:auto}.section{display:flex;flex-direction:column;gap:10px}.section-title{font-size:12px;font-weight:700;color:#98677c;display:flex;justify-content:space-between;align-items:center}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:11px;color:var(--muted)}.field input[type=text],.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:white;color:var(--ink);outline:none}.field input[type=range]{width:100%;accent-color:var(--accent)}.field input[type=color]{width:42px;height:34px;border:0;background:none;padding:0}.field input[type=file]{width:100%;font-size:11px;color:var(--muted)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.colorline{display:flex;align-items:center;gap:10px}.colorline span{font-size:11px;color:var(--muted)}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 12px;border:1px solid var(--line);background:white;border-radius:10px;color:var(--ink);font-size:12px}.chip.active{border-color:var(--accent);background:#fcecf2;color:#a65376}.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.theme-card{border:1px solid var(--line);border-radius:12px;background:white;padding:7px;text-align:left;color:var(--ink)}.theme-card.active{outline:2px solid var(--accent)}.swatches{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:6px}.swatches i{flex:1}.theme-card b{font-size:10px;font-weight:600}.sound-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.sound-row select{min-width:0;padding:9px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}.mini{padding:8px 10px;border-radius:9px;background:#f9e5ed;color:#a65376;font-size:11px}.asset-list{display:flex;flex-wrap:wrap;gap:8px}.asset{width:66px;height:66px;border-radius:12px;border:1px dashed #dfb9c8;background:#fff;display:grid;place-items:center;overflow:hidden;font-size:10px;color:var(--muted)}.asset img{width:100%;height:100%;object-fit:cover}
+.footer{display:flex;gap:8px;flex-wrap:wrap;padding-top:5px}.notice{padding:12px 13px;border-radius:12px;background:#fff5e9;border:1px solid #f5dfbd;color:#8b6840;font-size:11px;line-height:1.55}.status{font-size:11px;color:var(--muted);margin-left:auto}.hide{display:none!important}
+@media(max-width:850px){.app{padding:12px}.workspace{grid-template-columns:1fr}.preview{min-height:330px}.editor{max-height:none}.top{align-items:flex-start}.top-actions{justify-content:flex-end}.brand h1{font-size:16px}}
+@media(max-width:480px){.top{flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.key{height:39px;border-radius:9px;font-size:15px}.keyrow{gap:4px}.keyrows{gap:6px}.phone{padding:12px 8px}.preview{padding:12px;min-height:280px}.theme-grid{grid-template-columns:repeat(4,1fr)}}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="brand"><div class="logo">⌨</div><div><h1>Key Atelier <span style="color:var(--accent)">键盘工坊</span></h1><small>本地键盘皮肤设计 · 离线创作空间</small></div></div><div class="top-actions"><button class="btn" id="newBtn">＋ 新建</button><button class="btn" id="saveBtn">保存工程</button><button class="btn primary" id="exportBtn">导出作品 ↓</button></div></header>
+<nav class="tabs"><button class="tab active" data-tab="design">键盘设计</button><button class="tab" data-tab="sound">打字音效</button><button class="tab" data-tab="assets">素材管理</button><button class="tab" data-tab="export">输入法导出</button></nav>
+<div class="workspace">
+<section class="panel"><div class="panel-head"><div><h2 id="leftTitle">实时键盘预览</h2><div class="sub">点击键帽可选中并单独编辑</div></div><span class="status" id="saveStatus">本地模式</span></div>
+<div class="preview"><div class="phone" id="keyboard"><div class="suggest"><span>☷</span><span>你好</span><span>谢谢</span><span>😊</span><span>⚙</span></div><div class="keyrows" id="keyrows"></div></div><div class="preview-note">这是设计预览，不会替换 iOS 系统键盘</div></div></section>
+<section class="panel"><div class="panel-head"><div><h2 id="rightTitle">外观属性</h2><div class="sub">修改后即时应用到左侧预览</div></div><span class="status" id="selectedLabel">未选中按键</span></div>
+<div class="editor" id="designPanel">
+<div class="section"><div class="section-title">主题风格 <span class="sub">支持多主题切换</span></div><div class="theme-grid" id="themes"></div></div>
+<div class="section"><div class="section-title">键盘布局</div><div class="chips"><button class="chip active" data-layout="qwerty">26键拼音</button><button class="chip" data-layout="nine">九宫格</button><button class="chip" data-layout="symbols">符号键盘</button></div></div>
+<div class="section"><div class="section-title">整体外观</div><div class="grid2"><div class="field"><label>键盘背景色</label><div class="colorline"><input type="color" id="bgColor"><span>背景颜色</span></div></div><div class="field"><label>按键颜色</label><div class="colorline"><input type="color" id="keyColor"><span>键帽颜色</span></div></div><div class="field"><label>文字颜色</label><div class="colorline"><input type="color" id="textColor"><span>键帽文字</span></div></div><div class="field"><label>功能键颜色</label><div class="colorline"><input type="color" id="specialColor"><span>功能按键</span></div></div></div>
+<div class="grid2"><div class="field"><label>按键圆角 <b id="radiusVal">12</b> px</label><input type="range" id="radius" min="0" max="25" value="12"></div><div class="field"><label>按键间距 <b id="gapVal">6</b> px</label><input type="range" id="gap" min="2" max="12" value="6"></div></div>
+<div class="field"><label>背景图片（本地上传）</label><input type="file" id="backgroundFile" accept="image/*"></div><div class="field"><label>背景图片透明度 <b id="opacityVal">0</b>%</label><input type="range" id="opacity" min="0" max="100" value="0"></div></div>
+<div class="section"><div class="section-title">当前按键单独编辑</div><div class="grid2"><div class="field"><label>按键文字</label><input type="text" id="keyLabel" placeholder="选择一个按键"></div><div class="field"><label>按键图片</label><input type="file" id="keyImage" accept="image/*"></div></div><div class="field"><label>按键音效</label><select id="keySound"><option value="default">使用默认音效</option><option value="soft">轻柔</option><option value="pop">清脆</option><option value="bubble">气泡</option><option value="wood">木鱼</option><option value="none">静音</option></select></div></div>
+<div class="footer"><button class="btn soft" id="resetBtn">恢复主题默认</button><button class="btn" id="clearBg">移除背景图片</button></div>
+</div>
+<div class="editor hide" id="soundPanel"><div class="section"><div class="section-title">自定义打字音效</div><div class="notice">上传的音频仅保存在当前浏览器中。iOS Safari 需要在首次点击试听后才允许播放声音。</div><div class="field"><label>导入音效（MP3 / WAV / OGG / M4A）</label><input type="file" id="soundFile" accept="audio/*" multiple></div><div class="asset-list" id="soundAssets"></div></div><div class="section"><div class="section-title">音效参数</div><div class="field"><label>总音量 <b id="volumeVal">65</b>%</label><input type="range" id="volume" min="0" max="100" value="65"></div><div class="field"><label>音调 <b id="pitchVal">100</b>%</label><input type="range" id="pitch" min="50" max="150" value="100"></div><div class="field"><label>播放速度 <b id="speedVal">100</b>%</label><input type="range" id="speed" min="60" max="150" value="100"></div><div class="field"><label>全局音效方案</label><select id="globalSound"><option value="default">系统默认模拟音</option><option value="soft">轻柔</option><option value="pop">清脆</option><option value="bubble">气泡</option><option value="wood">木鱼</option><option value="custom">自定义上传音效</option><option value="none">关闭音效</option></select></div><button class="btn soft" id="testSound">▶ 试听当前音效</button></div><div class="section"><div class="section-title">按键音效映射</div><div class="field"><label>选择按键</label><select id="soundKey"></select></div><div class="field"><label>为此按键指定音效</label><select id="soundMap"><option value="global">跟随全局方案</option><option value="default">默认</option><option value="soft">轻柔</option><option value="pop">清脆</option><option value="bubble">气泡</option><option value="wood">木鱼</option><option value="custom">上传音效</option><option value="none">静音</option></select></div></div></div>
+<div class="editor hide" id="assetsPanel"><div class="section"><div class="section-title">我的素材库</div><div class="notice">图片和声音不会上传到服务器。关闭浏览器前建议导出工程备份；大文件可能受浏览器本地存储容量限制。</div><div class="field"><label>添加图片素材</label><input type="file" id="assetFile" accept="image/*" multiple></div><div class="asset-list" id="imageAssets"></div></div><div class="section"><div class="section-title">素材操作</div><button class="btn" id="clearAssets">清空素材缩略库</button></div></div>
+<div class="editor hide" id="exportPanel"><div class="section"><div class="section-title">导出设计工程</div><p class="sub">导出完整工程 JSON，包含主题参数、键位配置、素材数据（图片/音频）。可在本工具中重新导入。</p><button class="btn primary" id="projectExport">导出完整工程 JSON</button><input type="file" id="projectImport" accept=".json,application/json"></div><div class="section"><div class="section-title">输入法适配资料包</div><div class="notice">重要：iOS 第三方输入法的原生皮肤包格式由各厂商定义。此离线工具先导出带有键位、主题、图片和音效资源的适配资料 ZIP，不伪装成已验证可直接安装的原生皮肤包。最终导入需要按厂商当前版本的官方制作规范转换/签名。</div><div class="grid2"><button class="btn soft" id="baiduExport">百度输入法资料包 ZIP</button><button class="btn soft" id="iflytekExport">讯飞输入法资料包 ZIP</button></div><div class="sub">资料包包含 manifest.json、preview.svg、assets/、README.txt 和工程源文件。</div></div><div class="section"><div class="section-title">导出前检查</div><div id="checks" class="sub">等待检查…</div></div></div>
+</section></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const themes=[
+{name:'樱花奶霜',bg:'#f7e7ee',key:'#fffafd',text:'#765363',special:'#f0d2df',accent:'#d77e9d',shadow:'#e4c5d2'},
+{name:'薄荷苏打',bg:'#e5f4ee',key:'#fbfffd',text:'#456b60',special:'#cce9dc',accent:'#69aa91',shadow:'#c4dfd3'},
+{name:'晴空蓝',bg:'#e7f0fa',key:'#fbfdff',text:'#4e6680',special:'#d4e5f7',accent:'#739dca',shadow:'#cbdced'},
+{name:'奶油黄',bg:'#faf1dc',key:'#fffdf6',text:'#78623d',special:'#f1e2b9',accent:'#c59b51',shadow:'#e7d9b7'},
+{name:'薰衣草',bg:'#eee9f8',key:'#fdfbff',text:'#66567e',special:'#ded5f0',accent:'#9880c2',shadow:'#d8cde9'},
+{name:'蜜桃乌龙',bg:'#f8e9df',key:'#fffaf6',text:'#805a49',special:'#f2d5c5',accent:'#d58d6c',shadow:'#e8cabb'},
+{name:'极简黑白',bg:'#e8e8eb',key:'#ffffff',text:'#33333a',special:'#d4d4da',accent:'#55555e',shadow:'#c8c8ce'},
+{name:'夜幕星河',bg:'#252638',key:'#414359',text:'#f5eefa',special:'#565a78',accent:'#b58bd9',shadow:'#1c1d2d'}
+];
+let state={theme:0,layout:'qwerty',bg:'#f7e7ee',key:'#fffafd',text:'#765363',special:'#f0d2df',accent:'#d77e9d',shadow:'#e4c5d2',radius:12,gap:6,opacity:0,background:null,selected:'q',labels:{},keyImages:{},keySounds:{},globalSound:'default',volume:65,pitch:100,speed:100,customSounds:[],assets:[]};
+const rows={qwerty:['qwertyuiop','asdfghjkl','⇧zxcvbnm⌫'],nine:['，。？！…：；（）','ABC DEF GHI','JKL MNO PQRS','TUV WXYZ ⌫'],symbols:['1234567890','@#$%&*+-/','()[]{}<>!?','.,:;\'"=⌫']};
+function keysForLayout(){return rows[state.layout].map(r=>r.split(''))}
+function allKeys(){return keysForLayout().flat()}
+function renderKeyboard(){let root=$('keyrows');root.innerHTML='';keysForLayout().forEach((r,ri)=>{let row=document.createElement('div');row.className='keyrow';r.forEach((ch,i)=>{let k=document.createElement('button');k.className='key';let special=['⇧','⌫','123','#+=','?123','return','空格','ABC'].includes(ch)||'⌫⇧'.includes(ch);if(special)k.classList.add('special');if(ch==='⌫'||ch==='↵')k.classList.add('enter');let label=state.labels[ch]??ch;k.innerHTML='<span class="glyph"></span>';k.querySelector('.glyph').textContent=label;if(state.keyImages[ch]){let im=document.createElement('img');im.src=state.keyImages[ch];k.appendChild(im)}if(ch===' ')k.classList.add('space');k.style.borderRadius=state.radius+'px';k.onclick=()=>{state.selected=ch;updateSelected();renderKeyboard();playForKey(ch)};if(state.selected===ch)k.classList.add('selected');row.appendChild(k)});root.appendChild(row)})}
+function applyTheme(){let s=document.documentElement.style;s.setProperty('--bg',state.bg);s.setProperty('--kb-bg',state.bg);s.setProperty('--key',state.key);s.setProperty('--keyink',state.text);s.setProperty('--special',state.special);s.setProperty('--accent',state.accent);s.setProperty('--key-shadow',state.shadow);s.setProperty('--kb-image',state.background?`url("${state.background}")`:'none');s.setProperty('--kb-image-opacity',state.opacity/100);document.querySelectorAll('.keyrow').forEach(r=>r.style.gap=state.gap+'px');renderKeyboard();['bgColor','keyColor','textColor','specialColor'].forEach((id,i)=>$(id).value=[state.bg,state.key,state.text,state.special][i]);$('radius').value=state.radius;$('gap').value=state.gap;$('opacity').value=state.opacity;$('radiusVal').textContent=state.radius;$('gapVal').textContent=state.gap;$('opacityVal').textContent=state.opacity}
+function renderThemes(){$('themes').innerHTML='';themes.forEach((t,i)=>{let b=document.createElement('button');b.className='theme-card'+(i===state.theme?' active':'');b.innerHTML=`<div class="swatches"><i style="background:${t.bg}"></i><i style="background:${t.key}"></i><i style="background:${t.special}"></i><i style="background:${t.accent}"></i></div><b>${t.name}</b>`;b.onclick=()=>{state.theme=i;Object.assign(state,{bg:t.bg,key:t.key,text:t.text,special:t.special,accent:t.accent,shadow:t.shadow});renderThemes();applyTheme()};$('themes').appendChild(b)})}
+function updateSelected(){let ch=state.selected;$('selectedLabel').textContent='选中：'+(ch===' '?'空格':ch);$('keyLabel').value=state.labels[ch]??ch;$('keySound').value=state.keySounds[ch]||'default';$('soundKey').value=ch;$('soundMap').value=state.keySounds[ch]||'global'}
+function soundType(ch){return state.keySounds[ch]||state.globalSound}
+function playForKey(ch){let type=soundType(ch);if(type==='none')return;if(type==='custom'&&state.customSounds.length){let a=new Audio(state.customSounds[0].data);a.volume=state.volume/100;a.playbackRate=state.speed/100;a.play().catch(()=>{});return}playTone(type)}
+function playTone(type){try{let C=window.AudioContext||window.webkitAudioContext;if(!C)return;let c=new C(),o=c.createOscillator(),g=c.createGain();let f={soft:480,pop:850,bubble:620,wood:300,default:520}[type]||520;o.type=type==='wood'?'triangle':'sine';o.frequency.value=f*state.pitch/100;g.gain.setValueAtTime(state.volume/100*.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.09);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.1);o.onended=()=>c.close()}catch(e){}}
+function dataURL(file){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+function download(name,blob){let a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
+function project(){return {...state,version:1,app:'Key Atelier'}}
+function save(){try{localStorage.setItem('keyAtelierProject',JSON.stringify(project()));$('saveStatus').textContent='已保存到此浏览器'}catch(e){$('saveStatus').textContent='本地空间不足，请导出工程备份'}}
+function exportJSON(){download('KeyAtelier-Project.json',new Blob([JSON.stringify(project(),null,2)],{type:'application/json'}))}
+function crc32(bytes){let c=~0;for(let b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (~c)>>>0}
+function zipBlob(files){let enc=new TextEncoder(),local=[],central=[],offset=0;for(let f of files){let name=enc.encode(f.name),data=typeof f.data==='string'?enc.encode(f.data):f.data,crc=crc32(data),h=new Uint8Array(30+name.length),v=new DataView(h.buffer);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(6,0,true);v.setUint16(8,0,true);v.setUint32(14,crc,true);v.setUint32(18,data.length,true);v.setUint32(22,data.length,true);v.setUint16(26,name.length,true);h.set(name,30);local.push(h,data);let c=new Uint8Array(46+name.length),d=new DataView(c.buffer);d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0,true);d.setUint16(10,0,true);d.setUint32(16,crc,true);d.setUint32(20,data.length,true);d.setUint32(24,data.length,true);d.setUint16(28,name.length,true);d.setUint32(42,offset,true);c.set(name,46);central.push(c);offset+=h.length+data.length}let size=central.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22),dv=new DataView(end.buffer);dv.setUint32(0,0x06054b50,true);dv.setUint16(8,files.length,true);dv.setUint16(10,files.length,true);dv.setUint32(12,size,true);dv.setUint32(16,offset,true);return new Blob([...local,...central,end],{type:'application/zip'})}
+function previewSVG(){return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420"><rect width="100%" height="100%" rx="28" fill="${state.bg}"/><text x="30" y="45" font-size="24" fill="${state.text}">Key Atelier · ${themes[state.theme].name}</text>${keysForLayout().map((r,ri)=>r.map((k,i)=>`<rect x="${35+i*82+(ri?ri*20:0)}" y="${90+ri*75}" width="70" height="58" rx="${state.radius}" fill="${state.key}"/><text x="${70+i*82+(ri?ri*20:0)}" y="${126+ri*75}" text-anchor="middle" font-size="24" fill="${state.text}">${k}</text>`).join('')).join('')}</svg>`}
+async function exportAdapter(kind){let files=[],assets=[];for(let [ch,data] of Object.entries(state.keyImages)){let ext=(data.match(/^data:image\/(png|jpeg|webp|gif)/)||[])[1]||'png';assets.push({name:`assets/key-${encodeURIComponent(ch)}.${ext}`,data:await (await fetch(data)).arrayBuffer()})}if(state.background){let ext=(state.background.match(/^data:image\/(png|jpeg|webp|gif)/)||[])[1]||'png';assets.push({name:`assets/background.${ext}`,data:await (await fetch(state.background)).arrayBuffer()})}for(let i=0;i<state.customSounds.length;i++){let a=state.customSounds[i],ext=(a.name.split('.').pop()||'audio').replace(/[^a-z0-9]/gi,'');assets.push({name:`assets/sound-${i+1}.${ext}`,data:await (await fetch(a.data)).arrayBuffer()})}let profile=kind==='baidu'?'百度输入法适配资料':'讯飞输入法适配资料';let manifest={title:'Key Atelier '+themes[state.theme].name,target:kind,format:'key-atelier-adapter-source-v1',nativeImportVerified:false,notice:'This is an adapter handoff package, not a vendor-native installable skin.',layout:state.layout,theme:{name:themes[state.theme].name,background:state.bg,key:state.key,text:state.text,special:state.special,accent:state.accent,radius:state.radius,gap:state.gap},keyLabels:state.labels,keySounds:state.keySounds,globalSound:state.globalSound,volume:state.volume,pitch:state.pitch,speed:state.speed,assets:assets.map(a=>a.name)};files.push({name:'manifest.json',data:JSON.stringify(manifest,null,2)},{name:'preview.svg',data:previewSVG()},{name:'project/keyatelier-project.json',data:JSON.stringify(project(),null,2)},{name:'README.txt',data:`${profile}\\n\\n此 ZIP 是离线设计工程/适配交接包，不是已经验证可直接导入的原生皮肤包。\\n请使用对应输入法当前版本的官方皮肤制作规范，将 manifest、键位资源和图片转换为官方格式。\\n浏览器预览音效依赖 Web Audio；iOS 输入法是否支持第三方皮肤音效需以厂商接口为准。\\n\\n包含：manifest.json、preview.svg、project 源文件和 assets 素材。`});files.push(...assets);download(`KeyAtelier-${kind}-adapter.zip`,zipBlob(files))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['design','sound','assets','export'].forEach(n=>$ (n+'Panel').classList.toggle('hide',n!==b.dataset.tab));$('leftTitle').textContent=b.dataset.tab==='sound'?'键盘与音效预览':b.dataset.tab==='assets'?'素材预览':b.dataset.tab==='export'?'导出预览':'实时键盘预览';$('rightTitle').textContent={design:'外观属性',sound:'音效工作台',assets:'素材管理',export:'导出中心'}[b.dataset.tab]});
+document.querySelectorAll('[data-layout]').forEach(b=>b.onclick=()=>{state.layout=b.dataset.layout;document.querySelectorAll('[data-layout]').forEach(x=>x.classList.toggle('active',x===b));renderKeyboard();updateSelected();renderSoundKeys()});
+[['bgColor','bg'],['keyColor','key'],['textColor','text'],['specialColor','special']].forEach(([id,k])=>$(id).oninput=e=>{state[k]=e.target.value;applyTheme()});
+[['radius','radius'],['gap','gap'],['opacity','opacity']].forEach(([id,k])=>$(id).oninput=e=>{state[k]=+e.target.value;applyTheme()});
+$('backgroundFile').onchange=async e=>{if(e.target.files[0]){state.background=await dataURL(e.target.files[0]);applyTheme()}};
+$('clearBg').onclick=()=>{state.background=null;applyTheme()};
+$('keyLabel').oninput=e=>{state.labels[state.selected]=e.target.value;renderKeyboard()};
+$('keyImage').onchange=async e=>{if(e.target.files[0]){state.keyImages[state.selected]=await dataURL(e.target.files[0]);renderKeyboard()}};
+$('keySound').onchange=e=>{state.keySounds[state.selected]=e.target.value};
+$('resetBtn').onclick=()=>{let t=themes[state.theme];Object.assign(state,{bg:t.bg,key:t.key,text:t.text,special:t.special,accent:t.accent,shadow:t.shadow,radius:12,gap:6,opacity:0,background:null,labels:{},keyImages:{},keySounds:{}});applyTheme();updateSelected()};
+$('volume').oninput=e=>{state.volume=+e.target.value;$('volumeVal').textContent=state.volume};$('pitch').oninput=e=>{state.pitch=+e.target.value;$('pitchVal').textContent=state.pitch};$('speed').oninput=e=>{state.speed=+e.target.value;$('speedVal').textContent=state.speed};
+$('globalSound').onchange=e=>state.globalSound=e.target.value;$('testSound').onclick=()=>playForKey(state.selected);
+function renderSoundKeys(){let s=$('soundKey');s.innerHTML='';allKeys().forEach(k=>{let o=document.createElement('option');o.value=k;o.textContent=k===' '?'空格':k;s.appendChild(o)});s.value=state.selected}
+$('soundKey').onchange=e=>{$('soundMap').value=state.keySounds[e.target.value]||'global'};$('soundMap').onchange=e=>{let v=e.target.value;if(v==='global')delete state.keySounds[$('soundKey').value];else state.keySounds[$('soundKey').value]=v};
+$('soundFile').onchange=async e=>{for(let f of e.target.files)state.customSounds.push({name:f.name,data:await dataURL(f)});renderSounds()};
+function renderSounds(){$('soundAssets').innerHTML='';state.customSounds.forEach((a,i)=>{let d=document.createElement('div');d.className='asset';d.textContent='♫ '+a.name.slice(0,9);d.title=a.name;$('soundAssets').appendChild(d)})}
+$('assetFile').onchange=async e=>{for(let f of e.target.files)state.assets.push({name:f.name,data:await dataURL(f)});renderAssets()};
+function renderAssets(){$('imageAssets').innerHTML='';state.assets.forEach(a=>{let d=document.createElement('div');d.className='asset';let im=document.createElement('img');im.src=a.data;d.appendChild(im);d.title=a.name;$('imageAssets').appendChild(d)})}
+$('clearAssets').onclick=()=>{state.assets=[];renderAssets()};
+$('saveBtn').onclick=save;$('exportBtn').onclick=exportJSON;$('projectExport').onclick=exportJSON;$('baiduExport').onclick=()=>exportAdapter('baidu');$('iflytekExport').onclick=()=>exportAdapter('iflytek');
+$('projectImport').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());Object.assign(state,x);renderThemes();applyTheme();updateSelected();renderAssets();renderSounds();renderSoundKeys();$('saveStatus').textContent='工程已导入'}catch(err){alert('工程文件无法读取')}};
+$('newBtn').onclick=()=>{if(confirm('新建工程会清空当前编辑内容，建议先保存。继续吗？')){localStorage.removeItem('keyAtelierProject');location.reload()}};
+$('checks').innerHTML='✓ 键盘布局：已配置<br>✓ 主题颜色：已配置<br>✓ 本地素材：'+(state.assets.length+Object.keys(state.keyImages).length+state.customSounds.length)+' 项<br>! 原生输入法格式：需厂商官方工具最终转换';
+let saved=localStorage.getItem('keyAtelierProject');if(saved){try{Object.assign(state,JSON.parse(saved))}catch(e){}}renderThemes();applyTheme();updateSelected();renderSoundKeys();renderAssets();renderSounds();
+</script>
+<style id="atelier-v15-style">
+#atelierV15{margin:22px 0;padding:18px;border-radius:22px;background:linear-gradient(135deg,#fff0f6,#f3edff);color:#35283a;border:1px solid #f0d7e8;font-family:inherit}
+#atelierV15 *{box-sizing:border-box}
+#atelierV15 h2{margin:0 0 6px;font-size:20px}
+#atelierV15 .v15-sub{font-size:12px;opacity:.7;margin-bottom:14px}
+#atelierV15 .v15-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+#atelierV15 .v15-card{background:#ffffffc9;border:1px solid #ead7e7;border-radius:15px;padding:12px}
+#atelierV15 label{display:block;font-size:12px;margin:8px 0 4px}
+#atelierV15 input,#atelierV15 select,#atelierV15 button{font:inherit}
+#atelierV15 input[type=text],#atelierV15 select{width:100%;padding:9px;border:1px solid #dfcddd;border-radius:10px;background:white;color:#35283a}
+#atelierV15 input[type=color]{width:100%;height:36px;border:0;background:transparent}
+#atelierV15 button{border:0;border-radius:10px;padding:9px 12px;background:#e9c6dd;color:#38283a;font-weight:650;cursor:pointer;margin:3px 3px 3px 0}
+#atelierV15 button.primary{background:#9b6bc2;color:white}
+#atelierV15 button.danger{background:#f7d7d7;color:#7b3030}
+#atelierV15 .v15-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+#atelierV15 .v15-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+#atelierV15 .v15-chip{padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #e4d3e2;font-size:12px}
+#atelierV15 .v15-muted{font-size:11px;opacity:.65}
+#atelierV15 .v15-preview{min-height:70px;border-radius:14px;background:#fff;padding:12px;margin-top:10px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+#atelierV15 .v15-key{border-radius:10px;padding:10px 13px;box-shadow:0 3px 0 #d7c5d5;background:#f7eaf2;animation:none}
+#atelierV15 .v15-key.demo-press{animation:v15press .28s ease}
+@keyframes v15press{0%{transform:translateY(0) scale(1)}45%{transform:translateY(4px) scale(.96);box-shadow:0 0 15px #d28bc5}100%{transform:translateY(0) scale(1)}}
+#atelierV15 .v15-device{margin-top:8px;border:7px solid #332d39;border-radius:28px;padding:12px;background:#f8f6fb;max-width:340px;margin-left:auto;margin-right:auto}
+#atelierV15 .v15-device.ipad{max-width:520px;border-radius:22px}
+@media(prefers-color-scheme:dark){#atelierV15{background:linear-gradient(135deg,#302532,#242238);color:#f8edf7;border-color:#554157}#atelierV15 .v15-card,#atelierV15 .v15-preview,#atelierV15 .v15-device{background:#393242;color:#fff}#atelierV15 input[type=text],#atelierV15 select{background:#292431;color:#fff;border-color:#65516a}}
+</style>
+<section id="atelierV15">
+  <h2>✨ 工坊增强中心 · V1.5</h2>
+  <div class="v15-sub">新增主题管理、字体素材、图层开关、按键动效、设备预览与撤销/重做。原有 V1.0 编辑与导出功能保留。</div>
+  <div class="v15-grid">
+    <div class="v15-card">
+      <b>🎨 我的主题</b>
+      <label>主题名称</label><input id="v15ThemeName" type="text" placeholder="例如：樱花汽水">
+      <label>键帽颜色</label><input id="v15KeyColor" type="color" value="#f7dce9">
+      <label>文字颜色</label><input id="v15TextColor" type="color" value="#573b57">
+      <div class="v15-row"><button class="primary" id="v15SaveTheme">保存主题</button><button id="v15ApplyTheme">应用选中</button></div>
+      <div id="v15Themes" class="v15-list"></div>
+      <div class="v15-muted">主题保存在当前浏览器本地，不会上传。</div>
+    </div>
+    <div class="v15-card">
+      <b>🔤 字体工作室</b>
+      <label>导入字体（TTF / OTF / WOFF / WOFF2）</label><input id="v15FontFile" type="file" accept=".ttf,.otf,.woff,.woff2,font/*">
+      <label>字体大小 <span id="v15FontSizeLabel">16</span> px</label><input id="v15FontSize" type="range" min="10" max="28" value="16" style="width:100%">
+      <label>字重</label><select id="v15FontWeight"><option value="400">常规</option><option value="500">中等</option><option value="600">半粗</option><option value="700">粗体</option></select>
+      <div class="v15-muted" id="v15FontStatus">尚未导入字体</div>
+    </div>
+    <div class="v15-card">
+      <b>🧩 图层管理</b>
+      <label><input type="checkbox" id="v15LayerBg" checked> 背景</label>
+      <label><input type="checkbox" id="v15LayerKeys" checked> 键帽</label>
+      <label><input type="checkbox" id="v15LayerLabels" checked> 按键文字</label>
+      <label><input type="checkbox" id="v15LayerCandidate" checked> 候选栏</label>
+      <div class="v15-muted">图层开关作用于下方增强预览；原编辑区不受影响。</div>
+    </div>
+    <div class="v15-card">
+      <b>📱 设备预览</b>
+      <label>预览尺寸</label><select id="v15Device"><option value="phone">iPhone</option><option value="ipad">iPad</option><option value="compact">紧凑布局</option></select>
+      <label>按键动效</label><select id="v15Animation"><option value="press">按压回弹</option><option value="glow">柔光</option><option value="bounce">弹跳</option><option value="none">关闭</option></select>
+      <div class="v15-row"><button id="v15PlayDemo" class="primary">播放按键预览</button><button id="v15Undo">撤销</button><button id="v15Redo">重做</button></div>
+      <div class="v15-muted" id="v15HistoryStatus">历史记录：0</div>
+    </div>
+  </div>
+  <div class="v15-device" id="v15DeviceFrame">
+    <div id="v15Candidate" class="v15-preview" style="min-height:32px">你好　今天天气不错　😊</div>
+    <div id="v15KeyPreview" class="v15-preview">
+      <span class="v15-key">Q</span><span class="v15-key">W</span><span class="v15-key">E</span><span class="v15-key">R</span><span class="v15-key">T</span><span class="v15-key">Y</span><span class="v15-key">U</span><span class="v15-key">I</span><span class="v15-key">O</span><span class="v15-key">P</span>
+      <span class="v15-key">A</span><span class="v15-key">S</span><span class="v15-key">D</span><span class="v15-key">F</span><span class="v15-key">G</span><span class="v15-key">H</span><span class="v15-key">J</span><span class="v15-key">K</span><span class="v15-key">L</span>
+      <span class="v15-key">⇧</span><span class="v15-key">Z</span><span class="v15-key">X</span><span class="v15-key">C</span><span class="v15-key">V</span><span class="v15-key">B</span><span class="v15-key">N</span><span class="v15-key">M</span><span class="v15-key">⌫</span>
+      <span class="v15-key">123</span><span class="v15-key">🌐</span><span class="v15-key" style="min-width:110px">空格</span><span class="v15-key">换行</span>
+    </div>
+  </div>
+</section>
+<script id="atelier-v15-script">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+ let themes=read('atelier_v15_themes',[]), selected=-1, history=[], cursor=-1;
+ const state=()=>({themes:JSON.parse(JSON.stringify(themes)),key:$('v15KeyColor').value,text:$('v15TextColor').value,fontSize:$('v15FontSize').value,weight:$('v15FontWeight').value,device:$('v15Device').value,animation:$('v15Animation').value});
+ const snapshot=()=>{history=history.slice(0,cursor+1);history.push(state());if(history.length>30)history.shift();cursor=history.length-1;status()};
+ const status=()=>{$('v15HistoryStatus').textContent='历史记录：'+(cursor+1)+' / '+history.length};
+ const paint=()=>{document.querySelectorAll('#v15KeyPreview .v15-key').forEach(k=>{k.style.background=$('v15KeyColor').value;k.style.color=$('v15TextColor').value;k.style.fontSize=$('v15FontSize').value+'px';k.style.fontWeight=$('v15FontWeight').value;k.style.display=$('v15LayerKeys').checked?'':'none';k.querySelectorAll('*').forEach(x=>x.style.display=$('v15LayerLabels').checked?'':'none')});$('v15Candidate').style.display=$('v15LayerCandidate').checked?'':'none';$('v15DeviceFrame').style.background=$('v15LayerBg').checked?'#f8f6fb':'transparent';$('v15DeviceFrame').classList.toggle('ipad',$('v15Device').value==='ipad');$('v15DeviceFrame').style.maxWidth=$('v15Device').value==='compact'?'260px':''};
+ const renderThemes=()=>{$('v15Themes').innerHTML='';themes.forEach((t,i)=>{let b=document.createElement('button');b.className='v15-chip';b.textContent=(i===selected?'✓ ':'')+t.name;b.style.borderColor=t.key;b.onclick=()=>{selected=i;$('v15Themes').querySelectorAll('button').forEach(x=>x.style.outline='');b.style.outline='2px solid #9b6bc2'};$('v15Themes').appendChild(b)});localStorage.setItem('atelier_v15_themes',JSON.stringify(themes))};
+ $('v15SaveTheme').onclick=()=>{let name=$('v15ThemeName').value.trim()||'我的主题 '+(themes.length+1);themes.push({name,key:$('v15KeyColor').value,text:$('v15TextColor').value});selected=themes.length-1;renderThemes()};
+ $('v15ApplyTheme').onclick=()=>{if(selected<0||!themes[selected])return alert('请先选择一个主题');$('v15KeyColor').value=themes[selected].key;$('v15TextColor').value=themes[selected].text;paint();snapshot()};
+ ['v15KeyColor','v15TextColor','v15FontSize','v15FontWeight','v15Device','v15Animation','v15LayerBg','v15LayerKeys','v15LayerLabels','v15LayerCandidate'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='v15FontSize')$('v15FontSizeLabel').textContent=$('v15FontSize').value;paint()}));
+ $('v15FontFile').onchange=e=>{let f=e.target.files[0];if(!f)return;let url=URL.createObjectURL(f),name='AtelierUserFont';let style=document.createElement('style');style.textContent='@font-face{font-family:'+name+';src:url('+JSON.stringify(url)+')} #atelierV15 .v15-key{font-family:'+name+'}';document.head.appendChild(style);$('v15FontStatus').textContent='已载入：'+f.name+'（仅当前页面会话预览；导出素材需单独打包）';paint()};
+ $('v15PlayDemo').onclick=()=>{let keys=[...document.querySelectorAll('#v15KeyPreview .v15-key')];keys.forEach((k,i)=>setTimeout(()=>{k.classList.remove('demo-press');void k.offsetWidth;if($('v15Animation').value==='press')k.classList.add('demo-press');else if($('v15Animation').value==='glow')k.style.boxShadow='0 0 18px #d28bc5';else if($('v15Animation').value==='bounce')k.animate([{transform:'translateY(0)'},{transform:'translateY(-7px)'},{transform:'translateY(0)'}],{duration:350});setTimeout(()=>k.style.boxShadow='',450)},i*45))};
+ $('v15Undo').onclick=()=>{if(cursor<=0)return;cursor--;restore(history[cursor])};
+ $('v15Redo').onclick=()=>{if(cursor>=history.length-1)return;cursor++;restore(history[cursor])};
+ function restore(s){themes=s.themes;$('v15KeyColor').value=s.key;$('v15TextColor').value=s.text;$('v15FontSize').value=s.fontSize;$('v15FontWeight').value=s.weight;$('v15Device').value=s.device;$('v15Animation').value=s.animation;$('v15FontSizeLabel').textContent=s.fontSize;renderThemes();paint();status()}
+ renderThemes();paint();snapshot();
+})();
+</script>
+
+
+<style id="atelier-v16-style">
+#atelierV16{margin:20px 0;padding:18px;border-radius:22px;background:linear-gradient(135deg,#f4edff,#fff0f5);color:#382b43;border:1px solid #e6d7f0;font-family:inherit}
+#atelierV16 *{box-sizing:border-box}
+#atelierV16 h2{margin:0 0 5px;font-size:20px}
+#atelierV16 .v16-note{font-size:12px;opacity:.7;margin:0 0 14px}
+#atelierV16 .v16-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+#atelierV16 .v16-panel{padding:13px;border-radius:16px;background:#ffffffc9;border:1px solid #e6d9e9}
+#atelierV16 .v16-themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#atelierV16 .v16-theme{padding:10px;border-radius:13px;border:2px solid transparent;text-align:left;background:#fff;color:#392d42;cursor:pointer}
+#atelierV16 .v16-theme.active{border-color:#9867c1;box-shadow:0 0 0 2px #9867c122}
+#atelierV16 .v16-swatch{height:30px;border-radius:9px;margin-bottom:7px}
+#atelierV16 button{border:0;border-radius:10px;padding:9px 12px;background:#e8d5ee;color:#382b43;font-weight:650;cursor:pointer;margin:3px}
+#atelierV16 button.primary{background:#9364bb;color:#fff}
+#atelierV16 button.danger{background:#f5dada;color:#7b3030}
+#atelierV16 input[type=file]{width:100%;font-size:12px;margin:8px 0}
+#atelierV16 .v16-stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:8px;margin-top:10px}
+#atelierV16 .v16-sticker{border:2px solid transparent;background:#fff;border-radius:12px;padding:5px;min-width:0;cursor:pointer}
+#atelierV16 .v16-sticker.active{border-color:#9867c1}
+#atelierV16 .v16-sticker img{width:100%;height:58px;object-fit:contain;display:block}
+#atelierV16 .v16-sticker small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+#atelierV16 .v16-board{padding:12px;border-radius:15px;margin-top:12px;background:#f8f4fa;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+#atelierV16 .v16-key{width:clamp(28px,7vw,42px);height:42px;border-radius:11px;border:0;position:relative;display:flex;align-items:center;justify-content:center;font-weight:650;cursor:pointer;box-shadow:0 3px 0 #c9b9cf;overflow:hidden}
+#atelierV16 .v16-key img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:contain;pointer-events:none}
+#atelierV16 .v16-key span{position:relative;z-index:1}
+#atelierV16 .v16-key.has-sticker span{background:#ffffffb8;border-radius:5px;padding:0 3px}
+#atelierV16 .v16-help{font-size:11px;opacity:.7;margin-top:8px}
+@media(prefers-color-scheme:dark){#atelierV16{background:linear-gradient(135deg,#2c2638,#332631);color:#f8effa;border-color:#55445d}#atelierV16 .v16-panel{background:#403747;border-color:#5b4b62}#atelierV16 .v16-theme,#atelierV16 .v16-sticker{background:#51465a;color:#fff}#atelierV16 .v16-board{background:#292532}}
+</style>
+<section id="atelierV16">
+  <h2>🪄 贴纸中心 & 键盘主题</h2>
+  <p class="v16-note">导入自己的贴纸，选择键盘外观主题，再点按键即可把贴纸放到对应键帽上。数据保存在本机浏览器。</p>
+  <div class="v16-grid">
+    <div class="v16-panel">
+      <b>🎨 选择键盘主题</b>
+      <div class="v16-themes" id="v16Themes" style="margin-top:10px">
+        <button class="v16-theme active" data-theme="soft"><div class="v16-swatch" style="background:linear-gradient(135deg,#f8dce9,#eadcff)"></div>柔雾粉彩</button>
+        <button class="v16-theme" data-theme="glass"><div class="v16-swatch" style="background:linear-gradient(135deg,#dff7ff,#e9e1ff);border:1px solid #fff"></div>液态玻璃</button>
+        <button class="v16-theme" data-theme="dark"><div class="v16-swatch" style="background:linear-gradient(135deg,#252333,#51445e)"></div>暗夜紫</button>
+        <button class="v16-theme" data-theme="mint"><div class="v16-swatch" style="background:linear-gradient(135deg,#d9f4e8,#bde5df)"></div>薄荷绿</button>
+        <button class="v16-theme" data-theme="sunset"><div class="v16-swatch" style="background:linear-gradient(135deg,#ffcfb5,#e9b8db)"></div>日落奶油</button>
+        <button class="v16-theme" data-theme="mono"><div class="v16-swatch" style="background:linear-gradient(135deg,#f7f7f7,#c9c9c9)"></div>极简黑白</button>
+      </div>
+      <div class="v16-help">选择后会立即应用到下面的键盘预览。</div>
+    </div>
+    <div class="v16-panel">
+      <b>🧸 导入我的贴纸</b>
+      <input id="v16StickerFiles" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
+      <div class="v16-help">支持 PNG、JPG、WebP、GIF；透明 PNG 最适合做键帽贴纸。可一次选择多张。</div>
+      <div class="v16-stickers" id="v16StickerLibrary"><span class="v16-help">还没有贴纸，请先导入图片。</span></div>
+      <div style="margin-top:8px"><button id="v16RemoveSticker" class="danger">删除选中贴纸</button><button id="v16ClearKeys">清除键盘贴纸</button></div>
+    </div>
+  </div>
+  <div class="v16-panel" style="margin-top:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <b>⌨️ 键盘贴纸预览</b><span class="v16-help" id="v16SelectedLabel">尚未选择贴纸</span>
+    </div>
+    <div class="v16-board" id="v16Board" aria-label="可点击的键盘预览"></div>
+    <div class="v16-help">操作：先选择一张贴纸，再点击上方任意按键应用。再次点击已贴贴纸的按键可移除该键贴纸。</div>
+  </div>
+</section>
+<script id="atelier-v16-script">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const STORE='atelier_v16_stickers_v1', KEYMAP='atelier_v16_keymap_v1', THEME='atelier_v16_theme_v1';
+ let stickers=[], keymap={}, selected=null, theme=localStorage.getItem(THEME)||'soft';
+ try{stickers=JSON.parse(localStorage.getItem(STORE)||'[]')}catch(e){}
+ try{keymap=JSON.parse(localStorage.getItem(KEYMAP)||'{}')}catch(e){}
+ const palettes={
+  soft:{bg:'linear-gradient(135deg,#f8e8f1,#eee7ff)',key:'#fff8fc',text:'#634d68',shadow:'#d9c7dc',radius:'11px',border:'1px solid #fff'},
+  glass:{bg:'linear-gradient(135deg,#dff7ff,#e9e1ff)',key:'#ffffffa8',text:'#42566d',shadow:'#b9c9df',radius:'15px',border:'1px solid #ffffff'},
+  dark:{bg:'linear-gradient(135deg,#242333,#51445e)',key:'#62566f',text:'#fff',shadow:'#191725',radius:'8px',border:'1px solid #81728f'},
+  mint:{bg:'linear-gradient(135deg,#e2f7eb,#c9eee8)',key:'#f7fffb',text:'#3c655a',shadow:'#b4d7cb',radius:'13px',border:'1px solid #fff'},
+  sunset:{bg:'linear-gradient(135deg,#ffdfcb,#f0cce5)',key:'#fff6ed',text:'#85566a',shadow:'#d8b2bd',radius:'12px',border:'1px solid #fff'},
+  mono:{bg:'linear-gradient(135deg,#eeeeee,#d1d1d1)',key:'#fff',text:'#333',shadow:'#aaa',radius:'6px',border:'1px solid #ddd'}
+ };
+ const labels='QWERTYUIOPASDFGHJKL⇧ZXCVBNM⌫123🌐空格↵'.split('');
+ const save=()=>{try{localStorage.setItem(STORE,JSON.stringify(stickers));localStorage.setItem(KEYMAP,JSON.stringify(keymap));localStorage.setItem(THEME,theme)}catch(e){alert('本地存储空间不足。请减少贴纸数量或图片尺寸后重试。')}};
+ function drawThemes(){$('v16Themes').querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme))}
+ function drawLibrary(){let host=$('v16StickerLibrary');host.innerHTML='';if(!stickers.length){host.innerHTML='<span class="v16-help">还没有贴纸，请先导入图片。</span>';return}stickers.forEach((s,i)=>{let b=document.createElement('button');b.className='v16-sticker'+(selected===i?' active':'');let im=document.createElement('img');im.src=s.data;im.alt=s.name;let sm=document.createElement('small');sm.textContent=s.name;b.append(im,sm);b.onclick=()=>{selected=i;$('v16SelectedLabel').textContent='已选择：'+s.name;drawLibrary()};host.appendChild(b)})}
+ function drawBoard(){let board=$('v16Board'),p=palettes[theme];board.innerHTML='';board.style.background=p.bg;labels.forEach((label,i)=>{let k=document.createElement('button');k.className='v16-key';k.style.background=p.key;k.style.color=p.text;k.style.boxShadow='0 3px 0 '+p.shadow;k.style.border=p.border;k.style.borderRadius=p.radius;k.style.backdropFilter=theme==='glass'?'blur(12px)':'';k.style.webkitBackdropFilter=theme==='glass'?'blur(12px)':'';let span=document.createElement('span');span.textContent=label;k.appendChild(span);let idx=keymap[i];if(Number.isInteger(idx)&&stickers[idx]){let im=document.createElement('img');im.src=stickers[idx].data;im.alt=stickers[idx].name;k.appendChild(im);k.classList.add('has-sticker')}k.onclick=()=>{if(selected===null){if(keymap[i]!==undefined){delete keymap[i];save();drawBoard()}else $('v16SelectedLabel').textContent='请先从贴纸库选择一张贴纸';return}if(keymap[i]===selected)delete keymap[i];else keymap[i]=selected;save();drawBoard()};board.appendChild(k)})}
+ $('v16Themes').addEventListener('click',e=>{let b=e.target.closest('[data-theme]');if(!b)return;theme=b.dataset.theme;save();drawThemes();drawBoard()});
+ $('v16StickerFiles').addEventListener('change',async e=>{let files=[...e.target.files];for(let f of files){if(!/^image\/(png|jpeg|webp|gif)$/.test(f.type))continue;let data=await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)});stickers.push({name:f.name,data})}selected=stickers.length?stickers.length-1:null;save();drawLibrary();drawBoard();if(selected!==null)$('v16SelectedLabel').textContent='已选择：'+stickers[selected].name;e.target.value=''});
+ $('v16RemoveSticker').onclick=()=>{if(selected===null)return alert('请先选择要删除的贴纸');stickers.splice(selected,1);Object.keys(keymap).forEach(k=>{if(keymap[k]===selected)delete keymap[k];else if(keymap[k]>selected)keymap[k]--});selected=null;save();drawLibrary();drawBoard();$('v16SelectedLabel').textContent='已删除贴纸'};
+ $('v16ClearKeys').onclick=()=>{keymap={};save();drawBoard()};
+ drawThemes();drawLibrary();drawBoard();
+})();
+</script>
+
+</body></html>
